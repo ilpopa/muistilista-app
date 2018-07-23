@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="col-md-12">
+    <h1>Muistilista</h1>
+    <table class="table table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+          <th class="text-center">Tehtävä</th>
+          <th class="text-center">Viimeistään</th>       
+          <th class="text-center">Muuta</th>       
+          <th class="text-center">Tehty</th>       
+          <th class="text-center"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let muistilista of muistit">       
+          <td>{{ muistilista.name }}</td>
+          <td>{{ muistilista.due | date: 'EE, MMM dd' }}</td>       
+          <td>{{ muistilista.notes }}</td>
+          <td class="text-center">
+            <input type="checkbox" [checked]="muistilista.done" [disabled]="true">
+          </td>
+          <td class="text-center">
+            <button class="btn btn-info" (click)="showEditForm(muistilista)">
+              <p>Muokkaa</p>
+            </button>
+            <button class="btn btn-danger" (click)="removeMuisti(muistilista)">
+              <p>Poista</p>
+            </button>
+          </td>       
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-success" (click)="showNewForm()">
+      <p>Lisää uusi</p>
+    </button>
+    <form *ngIf="showForm()" [formGroup]="formGroup" (ngSubmit)="saveMuistilista(formGroup.value)">
+      <h2>{{headerText}}</h2>
+      <p>Tehtävä <input type="text" name="name" formControlName="name" /></p>
+      <p>Viimeistään <input type="date" name="due" formControlName="due"/></p>
+      <p>Tehty <input type="checkbox" name="done" formControlName="done" /></p>    
+      <p>Muuta <input type="text" name="notes" formControlName="notes" /></p>
+      <p>
+        <input type="submit" class="btn btn-primary" value="Tallenna">
+        <input type="button" class="btn btn-warning" value="Keskeytä" (click)="cancelEditMuisti()">
+      </p>
+    </form>
+  </div>
+ </div>
